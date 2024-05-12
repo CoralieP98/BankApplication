@@ -1,0 +1,14 @@
+services:
+
+  account:
+    image: bankApp/account
+    ports:
+      - 8081:8080
+  cards:
+    image: bankApp/cards
+    ports:
+      - 9001:9000
+  loans:
+    image: bankApp/loans
+    ports:
+      - 8091:8090
