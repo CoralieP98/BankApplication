@@ -2,13 +2,27 @@ services:
 
   account:
     image: bankApp/account
+    mem_limit: 700m
     ports:
       - 8081:8080
+    networks:
+      - bankapplication-networks
+
   cards:
     image: bankApp/cards
+    mem_limit: 700m
     ports:
       - 9001:9000
+    networks:
+      - bankapplication-networks
+
   loans:
     image: bankApp/loans
+    mem_limit: 700m
     ports:
       - 8091:8090
+    networks:
+      - bankapplication-networks
+
+networks:
+  bankapplication-networks:
