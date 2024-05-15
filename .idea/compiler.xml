@@ -8,6 +8,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="ms-loans" />
+        <module name="eurekaserver" />
         <module name="BankApplication" />
         <module name="ms-cards" />
         <module name="configserver" />
@@ -18,6 +19,7 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="BankApplication" options="-parameters" />
       <module name="configserver" options="-parameters" />
+      <module name="eurekaserver" options="-parameters" />
       <module name="ms-cards" options="-parameters" />
       <module name="ms-loans" options="-parameters" />
     </option>
