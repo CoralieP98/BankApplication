@@ -2,6 +2,9 @@ services:
 
   account:
     image: bankApp/account
+    depends_on:
+      eureka:
+        condition: service_completed_successfully
     mem_limit: 700m
     ports:
       - 8081:8080
@@ -10,6 +13,9 @@ services:
 
   cards:
     image: bankApp/cards
+    depends_on:
+      eureka:
+        condition: service_completed_successfully
     mem_limit: 700m
     ports:
       - 9001:9000
@@ -18,9 +24,32 @@ services:
 
   loans:
     image: bankApp/loans
+    depends_on:
+      eureka:
+        condition: service_completed_successfully
     mem_limit: 700m
     ports:
       - 8091:8090
+    networks:
+      - bankapplication-networks
+
+  config:
+    image: bankApp/config
+    mem_limit: 700m
+    ports:
+      - 8072:8071
+    networks:
+      - bankapplication-networks
+
+  eureka:
+    image: bankApp/eureka
+    depends_on:
+      config:
+        condition: service_completed_successfully
+        restart: true
+    mem_limit: 700m
+    ports:
+      - 8069:8070
     networks:
       - bankapplication-networks
 
