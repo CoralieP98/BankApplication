@@ -2,56 +2,92 @@ services:
 
   account:
     image: bankApp/account
-    depends_on:
-      eureka:
-        condition: service_completed_successfully
-    mem_limit: 700m
     ports:
-      - 8081:8080
+      - "8080:8080"
     networks:
       - bankapplication-networks
+    mem_limit: 700m
+    depends_on:
+      - eurekaserver
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 30s
+        max_attempts: 3
+        window: 120s
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      SPRING_CONFIG_IMPORT: configserver:http://configserver:8071/
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eurekaserver:8070/eureka/
 
   cards:
     image: bankApp/cards
-    depends_on:
-      eureka:
-        condition: service_completed_successfully
-    mem_limit: 700m
     ports:
-      - 9001:9000
+      - "9000:9000"
     networks:
       - bankapplication-networks
+    mem_limit: 700m
+    depends_on:
+      - eurekaserver
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 3
+        window: 120s
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      SPRING_CONFIG_IMPORT: configserver:http://configserver:8071/
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eurekaserver:8070/eureka/
 
   loans:
     image: bankApp/loans
+    ports:
+      - "8090:8090"
+    networks:
+      - bankapplication-networks
+    mem_limit: 700m
     depends_on:
-      eureka:
-        condition: service_completed_successfully
-    mem_limit: 700m
+      - eurekaserver
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 3
+        window: 120s
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      SPRING_CONFIG_IMPORT: configserver:http://configserver:8071/
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eurekaserver:8070/eureka/
+
+  configserver:
+    image: bankApp/configserver
     ports:
-      - 8091:8090
+      - "8071:8071"
     networks:
       - bankapplication-networks
-
-  config:
-    image: bankApp/config
     mem_limit: 700m
+
+  eurekaserver:
+    image: bankApp/eurekaserver
     ports:
-      - 8072:8071
+      - "8070:8070"
     networks:
       - bankapplication-networks
-
-  eureka:
-    image: bankApp/eureka
+    mem_limit: 700m
     depends_on:
-      config:
-        condition: service_completed_successfully
-        restart: true
-    mem_limit: 700m
-    ports:
-      - 8069:8070
-    networks:
-      - bankapplication-networks
+      - configserver
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 3
+        window: 120s
+
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      SPRING_CONFIG_IMPORT: configserver:http://configserver:8071/
+
 
 networks:
   bankapplication-networks:
