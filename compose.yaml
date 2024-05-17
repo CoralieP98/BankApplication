@@ -1,7 +1,7 @@
 services:
 
-  account:
-    image: bankApp/account
+  ms-account:
+    image: coralieperez/ms-account
     ports:
       - "8080:8080"
     networks:
@@ -20,8 +20,8 @@ services:
       SPRING_CONFIG_IMPORT: configserver:http://configserver:8071/
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eurekaserver:8070/eureka/
 
-  cards:
-    image: bankApp/cards
+  ms-cards:
+    image: coralieperez/ms-cards
     ports:
       - "9000:9000"
     networks:
@@ -40,8 +40,8 @@ services:
       SPRING_CONFIG_IMPORT: configserver:http://configserver:8071/
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eurekaserver:8070/eureka/
 
-  loans:
-    image: bankApp/loans
+  ms-loans:
+    image: coralieperez/ms-loans
     ports:
       - "8090:8090"
     networks:
@@ -61,7 +61,7 @@ services:
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eurekaserver:8070/eureka/
 
   configserver:
-    image: bankApp/configserver
+    image: coralieperez/configserver
     ports:
       - "8071:8071"
     networks:
@@ -69,7 +69,7 @@ services:
     mem_limit: 700m
 
   eurekaserver:
-    image: bankApp/eurekaserver
+    image: coralieperez/eurekaserver
     ports:
       - "8070:8070"
     networks:
