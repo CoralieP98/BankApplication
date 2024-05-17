@@ -22,4 +22,6 @@ public class CardController {
     public List<Cards> customerCards(@RequestBody Customer customer){
         return cardsRepository.getAllCardsByCustomerId(customer.getCustomerId());
     }
+
+
 }
